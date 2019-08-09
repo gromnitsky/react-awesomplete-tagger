@@ -28,18 +28,16 @@ export default class AwesompleteTagger extends React.Component {
         })
 
         ctrl.addEventListener('input', evt => { // TODO: debounce
-            let q = last_tag(evt.target.value).trim()
-            if ( !(q.length >= 2 && this.props.suggestions)) return
+            let user_input = last_tag(evt.target.value).trim()
+            if ( !(user_input.length >= 2 && this.props.completion)) return
 
-            this.props.suggestion().then( tags => {
-                awsmplt.list = tags.map( v => v.name)
+            this.props.completion(user_input).then( v => {
+                awsmplt.list = v
                 awsmplt.evaluate()
             })
         })
     }
 }
-
-console.log(1)
 
 // from underscore.js 1.8.3
 function debounce(func, wait, immediate) {

@@ -2,55 +2,44 @@
 <title>react-awesomplete-tagger demo</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="node_modules/awesomplete/awesomplete.css">
 <style>
   body {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0.5em auto;
   }
-  #eu {
+  div.awesomplete {
+    width: 100%;
     display: flex;
-    flex-flow: column wrap;
-    max-height: 8rem;
   }
+  div.awesomplete > input { width: 100%; }
 </style>
-<link rel="stylesheet" href="node_modules/awesomplete/awesomplete.css">
-
-<div id="eu">
-  <span>Austria</span>
-  <span>Belgium</span>
-  <span>Bulgaria</span>
-  <span>Croatia</span>
-  <span>Cyprus</span>
-  <span>Czechia</span>
-  <span>Denmark</span>
-  <span>Estonia</span>
-  <span>Finland</span>
-  <span>France</span>
-  <span>Germany</span>
-  <span>Greece</span>
-  <span>Hungary</span>
-  <span>Ireland</span>
-  <span>Italy</span>
-  <span>Latvia</span>
-  <span>Lithuania</span>
-  <span>Luxembourg</span>
-  <span>Malta</span>
-  <span>Netherlands</span>
-  <span>Poland</span>
-  <span>Portugal</span>
-  <span>Romania</span>
-  <span>Slovakia</span>
-  <span>Slovenia</span>
-  <span>Spain</span>
-  <span>Sweden</span>
-  <span>United Kingdom</span>
-</div>
-
-<input>
-
 
 <script src="node_modules/react/umd/react.production.min.js"></script>
 <script src="node_modules/react-dom/umd/react-dom.production.min.js"></script>
 <script src="node_modules/awesomplete/awesomplete.min.js"></script>
 
 <script src="dist/react-awesomplete-tagger.min.js"></script>
+<script src="demo.js"></script>
+
+<h1>react-awesomplete-tagger demo</h1>
+
+<div id="demo"><h1>Loading...</h1></div>
+
+<p>
+  <a href="https://github.com/gromnitsky/react-awesomplete-tagger">Github</a>
+</p>
+
+<pre><b>$ cat demo.jsx</b>
+<code id="jsx"></code></pre>
+
+<pre><b>$ cat demo.json</b>
+<code id="json"></code></pre>
+
+<script>
+  ['jsx', 'json'].forEach( ext => {
+      fetch('demo.'+ext).then( r => r.text()).then( r => {
+          document.querySelector('#'+ext).innerText = r
+      })
+  })
+</script>

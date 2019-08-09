@@ -8,9 +8,7 @@ all: $(dist)/react-awesomplete-tagger.min.js
 
 $(dist)/react-awesomplete-tagger.js: umd.name=AwesompleteTagger
 
-$(cache)/%.js: %.jsx
-	$(mkdir)
-	node_modules/.bin/babel -s inline $< -o $@
+$(cache)/%.js: %.jsx; $(jsx-to-js)
 
 $(dist)/%.js: $(cache)/%.js
 	$(mkdir)
@@ -25,8 +23,9 @@ demo.deps.src := $(shell adieu -pe '$$("link,script").map( (_, e) => $$(e).attr(
 demo.deps.dest := $(addprefix $(demo)/, $(demo.deps.src))
 
 $(demo)/%: %; $(copy)
+$(demo)/%.js: %.jsx; $(jsx-to-js)
 
-all: $(demo)/demo.html $(demo.deps.dest)
+all: $(demo)/demo.html $(demo)/demo.json $(demo)/demo.jsx $(demo.deps.dest)
 
 
 
@@ -35,6 +34,10 @@ define copy =
 $(mkdir)
 cp $< $@
 @[ ! -r $<.map ] || cp $<.map $@.map
+endef
+define jsx-to-js
+$(mkdir)
+node_modules/.bin/babel -s inline $< -o $@
 endef
 
 .DELETE_ON_ERROR:
