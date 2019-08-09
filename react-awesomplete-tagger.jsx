@@ -6,15 +6,13 @@ export default class AwesompleteTagger extends React.Component {
         this.ctrl = React.createRef()
     }
 
-    render() {
-        return <input {...this.props} ref={this.ctrl} />
-    }
+    render() { return <input {...this.props} ref={this.ctrl} /> }
 
     componentDidMount() {
         let ctrl = this.ctrl.current
 
         let last_tag = s => s.match(/[^,]*$/)[0]
-        let awsmplt = new Awesomplete(ctrl, {
+        let opt = Object.assign(this.props.opt || {}, {
             filter: function(text, input) {
                 return Awesomplete.FILTER_CONTAINS(text, last_tag(input))
             },
@@ -26,16 +24,25 @@ export default class AwesompleteTagger extends React.Component {
                 this.input.value = before + text + ", "
             }
         })
-
-        ctrl.addEventListener('input', evt => { // TODO: debounce
-            let user_input = last_tag(evt.target.value).trim()
-            if ( !(user_input.length >= 2 && this.props.completion)) return
-
-            this.props.completion(user_input).then( v => {
-                awsmplt.list = v
-                awsmplt.evaluate()
-            })
+        let awsmplt = new Awesomplete(ctrl, opt)
+        ctrl.addEventListener('awesomplete-select', () => {
+            // don't display suggestions until the next
+            // this.props.completions() run
+            awsmplt.list = []
         })
+
+        let input_listener = debounce( evt => {
+            let user_input = last_tag(evt.target.value).trim()
+            if ( !(user_input.length >= awsmplt.minChars &&
+                   this.props.completions)) return
+
+            if (this.props.completions) this.props.completions(user_input)
+                .then( v => {
+                    awsmplt.list = v
+                    awsmplt.evaluate()
+                })
+        }, this.props.debounce || 200)
+        ctrl.addEventListener('input',  input_listener)
     }
 }
 

@@ -4,18 +4,16 @@ class Demo extends React.Component {
     constructor(props) { super(props) }
 
     render() {
+        let opt = { maxItems: 5 } // pass down options to Awesomplete
         return (
               <AwesompleteTagger type="search" placeholder="poland, portugal"
-                                 completion={this.completion.bind(this)} />
+                                 completions={this.completions.bind(this)}
+                                 opt={opt} />
         )
     }
 
-    async completion(user_input = '') { // simulate a request to a DB
-        let array = await fetch('demo.json').then( r => r.json())
-        user_input = user_input.toLowerCase()
-        return array.filter( v => {
-            return user_input ? v.toLowerCase().indexOf(user_input) !== -1 : true
-        })
+    async completions() {       // simulate a request to a DB
+        return fetch('demo.json').then( r => r.json())
     }
 }
 
