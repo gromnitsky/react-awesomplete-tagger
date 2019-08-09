@@ -1,0 +1,40 @@
+{
+    "name": "react-awesomplete-tagger",
+    "version": "0.0.1",
+    "author": "Alexander Gromnitsky",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/cli": "^7.5.5",
+        "@babel/core": "^7.5.5",
+        "@babel/preset-react": "^7.0.0",
+        "awesomplete": "^1.1.4",
+        "eslint-plugin-react": "^7.14.3",
+        "react": "^16.9.0",
+        "react-dom": "^16.9.0",
+        "rollup-plugin-sourcemaps": "^0.4.2"
+    },
+    "babel": {
+        "presets": [
+            "@babel/preset-react"
+        ]
+    },
+    "eslintConfig": {
+        "parserOptions": {
+            "ecmaVersion": 2019,
+            "sourceType": "module"
+        },
+        "env": {
+            "browser": true
+        },
+        "plugins": [
+            "react"
+        ],
+        "extends": [
+            "eslint:recommended",
+            "plugin:react/recommended"
+        ],
+        "rules": {
+            "react/prop-types": 0
+        }
+    }
+}
