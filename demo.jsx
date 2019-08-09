@@ -12,7 +12,7 @@ class Demo extends React.Component {
         )
     }
 
-    async completions() {       // simulate a request to a DB
+    async completions(user_input) { // simulate a request to a DB
         return fetch('demo.json').then( r => r.json())
     }
 }

@@ -11,28 +11,47 @@ export default class AwesompleteTagger extends React.Component {
     componentDidMount() {
         let ctrl = this.ctrl.current
 
-        let last_tag = s => s.match(/[^,]*$/)[0]
+        let tags_parse = input => {
+            let cursor = ctrl.selectionStart
+            let left = input.slice(0, cursor).split(',')
+            let right = input.slice(cursor).split(',')
+            let normalize = a => a.map(v => v.trim()).filter(Boolean)
+            return {
+                cur: ((left[left.length-1] || '') + (right[0] || '')).trim(),
+                left: normalize(left.slice(0, -1)),
+                right: normalize(right.slice(1))
+            }
+        }
+
         let opt = Object.assign(this.props.opt || {}, {
             filter: function(text, input) {
-                return Awesomplete.FILTER_CONTAINS(text, last_tag(input))
+                return Awesomplete.FILTER_CONTAINS(text, tags_parse(input).cur)
             },
             item: function(text, input) {
-                return Awesomplete.ITEM(text, last_tag(input))
+                return Awesomplete.ITEM(text, tags_parse(input).cur)
             },
             replace: function(text) {
-                let before = this.input.value.match(/^.+,\s*|/)[0]
-                this.input.value = before + text + ", "
+                // inject a new tag to the current input
+                let t = tags_parse(this.input.value)
+                let other = a => a.join(', ') + (a.length ? ', ' : '')
+                this.input.value = other(t.left) + text + ', ' + other(t.right)
+
+                // set cursor position
+                let cursor = other(t.left).length + text.length +
+                    (t.right.length ? 0 : 2)
+                this.input.selectionStart = cursor
+                this.input.selectionEnd = cursor
             }
         })
         let awsmplt = new Awesomplete(ctrl, opt)
-        ctrl.addEventListener('awesomplete-select', () => {
+        ctrl.addEventListener('awesomplete-close', () => {
             // don't display suggestions until the next
             // this.props.completions() run
             awsmplt.list = []
         })
 
         let input_listener = debounce( evt => {
-            let user_input = last_tag(evt.target.value).trim()
+            let user_input = tags_parse(evt.target.value).cur
             if ( !(user_input.length >= awsmplt.minChars &&
                    this.props.completions)) return
 
