@@ -3,6 +3,22 @@
     "version": "0.0.1",
     "author": "Alexander Gromnitsky",
     "license": "MIT",
+    "repository": "github:gromnitsky/react-awesomplete-tagger",
+    "files": [
+        "react-awesomplete-tagger.jsx",
+        "dist/react-awesomplete-tagger.js",
+        "react-awesomplete-tagger.js.map",
+        "react-awesomplete-tagger.min.js",
+        "react-awesomplete-tagger.min.js.map"
+    ],
+    "description": "A tiny React tagger component that uses Awesomplete for completions; supports debouncing out-of-the-box",
+    "keywords": [
+        "react",
+        "tagger",
+        "tags",
+        "completions",
+        "awesomplete"
+    ],
     "devDependencies": {
         "@babel/cli": "^7.5.5",
         "@babel/core": "^7.5.5",

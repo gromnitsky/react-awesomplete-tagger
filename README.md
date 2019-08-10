@@ -2,6 +2,8 @@
 
 ![demo](https://media.giphy.com/media/iJPDqHwV0h0S7F3xsQ/giphy.gif)
 
+    npm i react-awesomplete-tagger
+
 * Depends on https://leaverou.github.io/awesomplete/
 * Debounces completions fetching
 * 1.9K minified UMD
