@@ -4,9 +4,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="node_modules/awesomplete/awesomplete.css">
 <style>
-  body {
-    max-width: 700px;
-    margin: 0.5em auto;
+  @media (min-width: 601px) {
+    body {
+      max-width: 600px;
+      margin: 0.5em auto;
+    }
+  }
+  pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
   }
   div.awesomplete { width: 100%; }
   div.awesomplete > input { width: 100%; }
